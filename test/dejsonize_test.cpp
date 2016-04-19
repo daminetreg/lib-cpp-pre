@@ -343,7 +343,7 @@ BOOST_FUSION_ADAPT_STRUCT(datamodel::employee,
   name,
   responsibility)
 
-BOOST_AUTO_TEST_CASE (vairants) {
+BOOST_AUTO_TEST_CASE (boost_variants) {
 
   std::vector<datamodel::employee> employees {
     {"King", datamodel::cashier{"hardware", 1} },
@@ -356,6 +356,41 @@ BOOST_AUTO_TEST_CASE (vairants) {
   std::cout << employees_json.dump(2) << std::endl;
 
   auto employees_deserialized = pre::json::from_json<std::vector<datamodel::employee>>(employees_json); 
+
+  auto employees_reserialized = pre::json::to_json(employees_deserialized);
+  std::cout << employees_reserialized.dump(2) << std::endl;
+
+  BOOST_ASSERT(employees == employees_deserialized);
+}
+
+
+namespace datamodel {
+  typedef eggs::variant<cleaner, cashier, security> possible_responsibilities_eggs;
+
+  struct employee_eggs {
+    std::string name;
+    possible_responsibilities_eggs responsibility;
+  };
+}
+
+
+BOOST_FUSION_ADAPT_STRUCT(datamodel::employee_eggs,
+  name,
+  responsibility)
+
+BOOST_AUTO_TEST_CASE (eggs_cpp_variants) {
+
+  std::vector<datamodel::employee_eggs> employees {
+    {"King", datamodel::cashier{"hardware", 1} },
+    {"Blake", datamodel::security{true, "Krav Maga"} },
+    {"Martin", datamodel::cleaner{"5th floor", "Toys, Petshop, Drugs, Food" } },
+    {"Ward", datamodel::cashier{"Food", 2} }
+  };
+
+  auto employees_json = pre::json::to_json(employees);
+  std::cout << employees_json.dump(2) << std::endl;
+
+  auto employees_deserialized = pre::json::from_json<std::vector<datamodel::employee_eggs>>(employees_json); 
 
   auto employees_reserialized = pre::json::to_json(employees_deserialized);
   std::cout << employees_reserialized.dump(2) << std::endl;

@@ -18,6 +18,9 @@ set (PRE_VERSION "${pre_VERSION_MAJOR}.${pre_VERSION_MINOR}.${pre_VERSION_PATCH}
 
 add_definitions(--std=c++11)
 
+# eggs::variant
+include_directories(/opt/libs/eggs-cpp/variant/include) 
+
 # Boost
 set(Boost_USE_MULTITHREADED ON)
 hunter_add_package(Boost)

@@ -14,12 +14,16 @@
 #include <pre/json/detail/sfinae_enabler.hpp>
 #include <pre/enums/to_underlying.hpp>
 
+#include <pre/variant/apply.hpp>
+
 //TODO: What about tuples ?
 //TODO: What about normal union?
 
 namespace pre { namespace json { namespace detail {
 
   struct jsonizer : public boost::static_visitor<> {
+
+    typedef void result_type;
 
     jsonizer(nlohmann::json& json_object) 
       : boost::static_visitor<>(),
@@ -71,11 +75,19 @@ namespace pre { namespace json { namespace detail {
     }
 
     template<class T, 
-      enable_if_is_variant_t<T>* = nullptr>
+      enable_if_is_boost_variant_t<T>* = nullptr>
     void operator()(const T& value) const {
       // struct has to be disambiguated in case of variant.
       _disambiguate_struct = true; 
       boost::apply_visitor(*this, value);
+    }
+
+    template<class T,
+      enable_if_is_eggs_variant_t<T>* = nullptr>
+    void operator()(const T& value) const {
+      // struct has to be disambiguated in case of variant.
+      _disambiguate_struct = true; 
+      pre::variant::apply(*this, value);
     }
 
     template<class T,

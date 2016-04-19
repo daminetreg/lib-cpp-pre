@@ -12,6 +12,8 @@
 #include <pre/json/traits/is_associative_container.hpp>
 #include <pre/json/traits/is_string.hpp>
 
+#include <eggs/variant.hpp>
+
 // XXX: Could we forward declare them ? to support them without depending explicitely on them ?
 #include <boost/chrono/duration.hpp>
 #include <chrono>
@@ -38,6 +40,7 @@ namespace pre { namespace json { namespace detail {
             boost::fusion::struct_tag
           >::value
       && !traits::is_boost_variant<T>::value 
+      && !eggs::variants::detail::is_variant<T>::value
     ,T>::type;
 
     template<class T>
@@ -49,9 +52,15 @@ namespace pre { namespace json { namespace detail {
     ,T>::type;
 
     template<class T>
-    using enable_if_is_variant_t = typename std::enable_if<
+    using enable_if_is_boost_variant_t = typename std::enable_if<
       traits::is_boost_variant<T>::value
     ,T>::type;
+
+    template<class T>
+    using enable_if_is_eggs_variant_t = typename std::enable_if<
+      eggs::variants::detail::is_variant<T>::value
+    ,T>::type;
+
 
     template<class T>
     using enable_if_is_container_t = typename std::enable_if<
