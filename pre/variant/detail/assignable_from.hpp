@@ -1,7 +1,8 @@
 #ifndef PRE_VARIANT_DETAIL_ASSIGNABLE_FROM_HPP
 #define PRE_VARIANT_DETAIL_ASSIGNABLE_FROM_HPP
 
-#include <boost/mpl/contains.hpp>
+//#include <boost/mpl/contains.hpp>
+#include <type_traits>
 
 namespace pre { namespace variant { namespace detail {
 
@@ -9,8 +10,7 @@ namespace pre { namespace variant { namespace detail {
 
   template <class SelectedTypeVariant, class T>
   using assignable_from  = 
-    typename mpl::contains<typename SelectedTypeVariant::types, T>::type;
-
+    typename std::is_constructible<SelectedTypeVariant, T>::type;
 
 }}}
 

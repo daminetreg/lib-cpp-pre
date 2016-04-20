@@ -10,7 +10,6 @@ namespace pre { namespace variant {
 
   template<typename F, typename... Ts, typename std::enable_if<!std::is_same<typename F::result_type, void>::value>::type* = nullptr>
   auto apply(F f, const eggs::variant<Ts...>& variant) -> typename F::result_type {
-    //return std::initializer_list<int>{(std::ref(f)(std::forward<Ts>(variant.template target<Ts>())),0)...}, return_val;
     typename F::result_type result;
     return std::initializer_list<int>{( (variant.which() == eggs::variants::detail::index_of<Ts, pack_params<Ts...>>::value - 1) 
         ? 
@@ -18,9 +17,8 @@ namespace pre { namespace variant {
 
   }
 
-  template<typename F, typename... Ts>
+  template<typename F, typename... Ts, typename std::enable_if<std::is_same<typename F::result_type, void>::value>::type* = nullptr>
   auto apply(F f, const eggs::variant<Ts...>& variant) -> void {
-    std::cout << "Hello accessing variant " << variant.which() << std::endl;
     std::initializer_list<int>{( (variant.which() == eggs::variants::detail::index_of<Ts, pack_params<Ts...>>::value - 1) 
         ? 
         (std::ref(f)(eggs::variants::get<Ts>(variant))),0 : 0)...};

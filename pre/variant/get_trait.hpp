@@ -6,7 +6,6 @@
 #include <boost/type_traits.hpp>
 
 #include <pre/json/traits/is_boost_variant.hpp>
-#include <pre/variant/detail/assignable_from.hpp>
 
 #include <pre/variant/apply.hpp>
 
