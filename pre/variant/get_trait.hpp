@@ -7,6 +7,8 @@
 #include <pre/json/traits/is_boost_variant.hpp>
 #include <pre/variant/detail/assignable_from.hpp>
 
+#include <pre/variant/get.hpp>
+
 namespace pre { namespace variant { 
 
   namespace detail {
@@ -70,7 +72,7 @@ namespace pre { namespace variant {
     >::type* = nullptr
   > 
   inline Result get_trait(const InspectedVariant& variant) {
-    return boost::apply_visitor(detail::get_trait_visitor<Result, TraitMetafunction>{}, variant);
+    return pre::apply_visitor(detail::get_trait_visitor<Result, TraitMetafunction>{}, variant);
   }
 
   template<class Result, template<class T> class TraitMetafunction, class InspectedVariant,
@@ -79,7 +81,7 @@ namespace pre { namespace variant {
     >::type* = nullptr
   >
   inline Result get_trait(const InspectedVariant& variant) {
-    return boost::apply_visitor(detail::get_value_trait_visitor<Result, TraitMetafunction>{}, variant);
+    return pre::apply_visitor(detail::get_value_trait_visitor<Result, TraitMetafunction>{}, variant);
   }
   
 }}

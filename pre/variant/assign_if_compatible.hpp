@@ -7,6 +7,8 @@
 #include <pre/json/traits/is_boost_variant.hpp>
 #include <pre/variant/detail/assignable_from.hpp>
 
+#include <pre/variant/get.hpp>
+
 namespace pre { namespace variant { 
 
   namespace detail {
@@ -55,7 +57,7 @@ namespace pre { namespace variant {
     >::type* = nullptr
   > 
   inline Result assign_if_compatible(const InspectedVariant& variant) {
-    return boost::apply_visitor(detail::assign_if_compatible_visitor<Result>{}, variant);
+    return pre::apply_visitor(detail::assign_if_compatible_visitor<Result>{}, variant);
   }
 
 }}

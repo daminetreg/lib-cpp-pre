@@ -2,6 +2,7 @@
 #define PRE_VARIANT_IS_ACTIVE_TYPE
 
 #include <boost/variant.hpp>
+#include <pre/variant/get.hpp>
 
 namespace pre { namespace variant { 
  
@@ -12,7 +13,7 @@ namespace pre { namespace variant {
    */
   template<class T, class Variant>
   inline bool is_active_type(const Variant& variant) {
-    return boost::get<T>(std::addressof(variant)) != nullptr;
+    return pre::get<T>(std::addressof(variant)) != nullptr;
   }
 
 }}
