@@ -5,6 +5,11 @@
 #ifndef MAPBOX_BOOST_SPIRIT_QI_HPP
 #define MAPBOX_BOOST_SPIRIT_QI_HPP
 
+
+#ifdef BOOST_SPIRIT_PARSER_OCTOBER_16_2008_0254PM
+  #error "ERROR file must be included before boost spirit qi"
+#endif
+
 #include <mapbox/detail/boost_spirit_attributes.hpp>
 
 #include <boost/spirit/include/qi_alternative.hpp>
@@ -21,5 +26,10 @@ namespace boost { namespace spirit { namespace qi { namespace detail
     };
 }}}}
 
+
+#include <boost/spirit/include/qi.hpp>
+#ifndef BOOST_SPIRIT_PARSER_OCTOBER_16_2008_0254PM
+  #error "ERROR include guard for boost spirit qi has changed!"
+#endif
 
 #endif
