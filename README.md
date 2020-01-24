@@ -1,3 +1,5 @@
+# This repository has moved to it's own organization https://github.com/cpp-pre
+
 lib-cpp-pre                         {#mainpage}
 ===========
 C++11 header-only boost companion library baked with love.
